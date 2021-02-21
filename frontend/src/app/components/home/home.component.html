@@ -1,0 +1,16 @@
+
+<body>
+  <div class="container">
+    <div id="buttonsDiv">
+      <h2>Ankiety</h2>
+      <button mat-raised-button color="accent" (click)="showRated()" class="btn btn-success">Ocenione</button>
+        <button mat-raised-button color="accent" (click)="showUnrated()"
+                class="btn btn-success" [matBadge]="(userInfo.unratedSubjects$ | async)?.length" matBadgeColor="warn">Do oceny</button>
+    </div>
+    <hr>
+    <div id="border"> </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</body>
+

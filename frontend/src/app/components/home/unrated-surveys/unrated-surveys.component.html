@@ -1,0 +1,22 @@
+<div *ngIf="(this.userInfo.unratedSubjects$ | async)?.length > 0; else elseBlock">
+  <h2>Przedmioty do ocenienia</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Nazwa przedmiotu</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let subjecto of this.userInfo.unratedSubjects$ | async">
+      <td>{{ subjecto.name }}</td>
+      <td><button mat-raised-button (click)="openDialog(this.subjecto.name)" class="btn btn-success">OCEŃ</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #elseBlock>
+  Brak ankiet do oceny
+</ng-template>
+

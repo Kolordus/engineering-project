@@ -1,0 +1,22 @@
+<h2>Przedmioty ocenione</h2>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Nazwa przedmiotu</th>
+    <th>Ocena prowadzącego</th>
+    <th>Jasność przekazu</th>
+    <th>Ogólna ocena</th>
+    <th>Dodatkowe inforamcje</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let survey of this.userInfo.userSurveys$ | async">
+    <td>{{ survey.subject.name }}</td>
+    <td>{{ survey.rate1 }}</td>
+    <td>{{ survey.rate2 }}</td>
+    <td>{{ survey.rate3 }}</td>
+    <td>{{ survey.opinion }}</td>
+    <td><button mat-raised-button class="btn btn-success" (click)="checkSurvey()">Sprawdź</button></td>
+  </tr>
+  </tbody>
+</table>

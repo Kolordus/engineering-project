@@ -1,0 +1,26 @@
+<div>
+  <table class="table table-hover" >
+    <thead>
+    <tr>
+      <th>Użytkownik</th>
+      <th>Czy wszyskie ankiety oddane</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users$ | async | keyvalue">
+      <td> {{ user.key }} </td>
+      <td>
+        <ng-container *ngIf="user.value > 0 ; else elseTemplate">
+          Nie
+        </ng-container>
+        <ng-template #elseTemplate>
+          Tak
+        </ng-template>
+      </td>
+      <td><button class="btn btn-danger">Usuń</button></td>
+    </tbody>
+  </table>
+</div>
+
+
+

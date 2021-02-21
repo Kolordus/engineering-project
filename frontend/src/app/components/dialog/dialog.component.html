@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>OCENA KURSU</h2>
+<hr>
+
+<form #rate1Form="ngForm">
+  <div id="rate1">
+    <label>Ocena prowadzącego</label>
+    <select required #rate1="ngModel" [class.is-invalid]="rate1.invalid && rate1.touched" class="custom-select" name="rate1" ngModel>
+      <!-- <option selected>Wybierz ocenę</option> -->
+      <option *ngFor="let rate of rates">{{ rate }}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="rate1.valid || rate1.untouched">Prosze wybrać ocenę</small>
+  </div>
+  <hr>
+  <div id="rate2">
+    <label>Jasność przekazu</label>
+    <select required #rate2="ngModel" [class.is-invalid]="rate2.invalid && rate2.touched" class="custom-select" name="rate2" ngModel>
+      <!-- <option selected>Wybierz ocenę</option> -->
+      <option *ngFor="let rate of rates">{{ rate }}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="rate2.valid || rate2.untouched">Prosze wybrać ocenę</small>
+  </div>
+  <hr>
+  <div id="rate3">
+    <label>Ocena ogólna</label>
+    <select required #rate3="ngModel" [class.is-invalid]="rate3.invalid && rate3.touched" class="custom-select" name="rate3" ngModel>
+      <!-- <option selected>Wybierz ocenę</option> -->
+      <option *ngFor="let rate of rates">{{ rate }}</option>
+    </select>
+    <small class="text-danger" [class.d-none]="rate3.valid || rate3.untouched">Prosze wybrać ocenę</small>
+
+    <hr>
+
+    <div id="opinion">
+      <label class="form-check-label">Dodatkowe informacje (opcjonalne)</label>
+      <input name="opinion" type="text" class="form-control" maxlength="40" ngModel>
+    </div>
+  </div>
+</form>
+
+<mat-dialog-actions>
+  <button mat-raised-button color="accent" [mat-dialog-close]="rate1Form.value"
+    [disabled]="rate1Form.invalid">OK</button>
+</mat-dialog-actions>

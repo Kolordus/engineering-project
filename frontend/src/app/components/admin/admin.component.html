@@ -1,0 +1,19 @@
+<body class="container">
+<div id="border"></div>
+<div>
+  <button mat-raised-button (click)="showUsers()" class="btn btn-success">Użytkownicy</button>
+  <button mat-raised-button (click)="showSurveys()" class="btn btn-success">Ankiety</button>
+  <button mat-raised-button (click)="showSubjects()" class="btn btn-success">Przedmioty</button>
+  <a href="http://localhost:8080/h2" target="_blank">
+    <button mat-raised-button color="accent" class="btn btn-success">Baza danych</button>
+  </a>
+
+<!--  <a href="https://engineering-project-backend.herokuapp.com/h2" target="_blank">-->
+<!--    <button mat-raised-button color="accent" class="btn btn-success">Baza danych</button>-->
+<!--  </a>-->
+</div>
+<hr>
+<router-outlet></router-outlet>
+</body>
+
+
