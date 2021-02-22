@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserInfoService} from '../../../services/user-info.service';
 import {CreateNewSurveyDialogComponent} from '../../dialogs/createNewSurveyDialog/create-new-survey-dialog.component';
 import {HttpService, Subject, Survey} from '../../../services/http.service';
@@ -10,7 +10,7 @@ import {ShowTokenComponent} from "../../dialogs/show-token/show-token.component"
   templateUrl: './unrated-surveys.component.html',
   styleUrls: ['./unrated-surveys.component.css']
 })
-export class UnratedSurveysComponent implements OnInit {
+export class UnratedSurveysComponent {
 
   surveyRatesFromDialog: Survey;
   subjectToRate: Subject;
@@ -20,9 +20,6 @@ export class UnratedSurveysComponent implements OnInit {
               public dialog: MatDialog) {
   }
 
-  ngOnInit() {
-    this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
-  }
 
   openDialog(subjectName: string) {
 
@@ -53,9 +50,9 @@ export class UnratedSurveysComponent implements OnInit {
               this.subjectToRate.name +
               this.userInfo.getUsername()),
           });
-          this.http.saveSurvey(saveNewSurvey).subscribe(data => {
-            this.ngOnInit();
+          this.http.saveSurvey(saveNewSurvey).subscribe(() => {
             this.showToken(saveNewSurvey.token);
+            this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
             console.log(saveNewSurvey.subject);
           });
         });

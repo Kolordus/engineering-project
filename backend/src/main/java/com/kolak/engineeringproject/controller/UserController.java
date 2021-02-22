@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity saveUser(@Validated @RequestBody User user) {
+    @PermitAll()
+    public ResponseEntity saveUser(@RequestBody User user) {
         userService.saveUser(user);
         return new ResponseEntity(HttpStatus.CREATED);
     }

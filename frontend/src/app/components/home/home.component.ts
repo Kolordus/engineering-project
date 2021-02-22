@@ -21,11 +21,8 @@ export class HomeComponent implements OnInit {
     if (this.userInfo.getToken() === null || this.userInfo.getUserRole() !== 'ROLE_USER') {
       this.router.navigate(['login']);
     }
-    /*
-    Najlepiej jakby to było tutaj -> zastosowac INPUT
-    tylko jak ogarnąć że się zmieniła wartość???
-     */
-    // this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
+
+    this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
   }
 
   showRated() {
@@ -35,4 +32,5 @@ export class HomeComponent implements OnInit {
   showUnrated() {
     this.router.navigate(['unrated-subjects'], {relativeTo: this.activatedRoute});
   }
+
 }

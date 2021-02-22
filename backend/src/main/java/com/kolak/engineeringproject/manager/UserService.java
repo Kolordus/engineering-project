@@ -3,6 +3,7 @@ package com.kolak.engineeringproject.manager;
 import com.kolak.engineeringproject.model.User;
 import com.kolak.engineeringproject.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +27,11 @@ public class UserService {
     }
 
     public boolean isUserTaken(String username) {
-        if (this.userRepo.findByUsername(username) != null)
-            return true;
-
-        return false;
+        return this.userRepo.findByUsername(username).isPresent();
     }
 
     public User getUsersInfo(String username) {
-        return this.userRepo.findByUsername(username);
+        return userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Could't find such user!"));
     }
 
 }

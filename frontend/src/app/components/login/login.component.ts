@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.userLoginData = this.loginForm.value;
     this.http.login(this.userLoginData).subscribe(data => {
       this.userInfo.setUserInfo(data[1], data[0], this.userLoginData.userName);

@@ -7,7 +7,6 @@
         <version>1.0-SNAPSHOT</version>
         <artifactId>engineering-project</artifactId>
     </parent>
-    <groupId>pl.kolak</groupId>
     <artifactId>backend</artifactId>
     <packaging>war</packaging>
     <version>0.0.1-SNAPSHOT</version>
@@ -102,7 +101,7 @@
                             <outputDirectory>${project.build.directory}/classes/resources/</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/frontend/src/main/web/dist/np-app/</directory>
+                                    <directory>${project.parent.basedir}/frontend/src/main/web/dist/</directory>
                                 </resource>
                             </resources>
                         </configuration>

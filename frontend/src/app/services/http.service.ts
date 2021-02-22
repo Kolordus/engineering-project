@@ -21,7 +21,7 @@ export class HttpService {
   login(user: UserLog): Observable<any> {
     sessionStorage.setItem('token', 'Basic ' + btoa(user.userName + ':' + user.password));
     const headers = new HttpHeaders({Authorization: sessionStorage.getItem('token')});
-    return this.http.get(this.connectionUrl + '/user/' + user.userName, {headers});
+    return this.http.get(this.connectionUrl + '/api/user/' + user.userName, {headers});
   }
 
   getUserSurveys(): Observable<Array<Survey>> {
@@ -55,9 +55,7 @@ export class HttpService {
   }
 
   registerUser(user: User): Observable<User> {
-    const headers = new HttpHeaders({Authorization: 'Basic ' + btoa('admin' + ':' + 'admin123')});
-    console.log(headers);
-    return this.http.post<User>(this.connectionUrl + '/api/register', user, {headers});
+    return this.http.post<User>(this.connectionUrl + '/api/register', user);
   }
 
   saveSurvey(survey: Survey): Observable<Survey> {

@@ -7,6 +7,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -31,9 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-
                 .antMatchers("/h2").hasRole("ADMIN")
-                .antMatchers( "/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/register").permitAll()
                 .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
                 .and()
 
@@ -48,6 +55,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .cors().disable();
+                .cors().configurationSource(corsConfigurationSource());
     }
+
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> allowOrigins = singletonList("*");
+        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "DELETE", "UPDATE", "OPTIONS"));
+        configuration.setAllowedHeaders(singletonList("*"));
+        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
 }
