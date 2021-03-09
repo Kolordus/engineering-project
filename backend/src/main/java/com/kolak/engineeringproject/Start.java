@@ -1,7 +1,7 @@
 package com.kolak.engineeringproject;
 
 
-import com.kolak.engineeringproject.manager.SurveySubjectService;
+import com.kolak.engineeringproject.service.SurveySubjectService;
 import com.kolak.engineeringproject.model.Subject;
 import com.kolak.engineeringproject.model.User;
 import com.kolak.engineeringproject.repositories.SubjectRepo;

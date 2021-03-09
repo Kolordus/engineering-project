@@ -1,0 +1,22 @@
+
+.image-profile {
+  width: 5%;
+  height: 50%;
+  border-radius: 15px;
+}
+
+a {
+  color: whitesmoke;
+}
+.navbar {
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+
+.button {
+  margin-left: 10px;
+}
+
+

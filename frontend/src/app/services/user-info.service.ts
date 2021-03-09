@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Survey, Subject} from './http.service';
+import {SafeUrl} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ export class UserInfoService {
 
   userSurveys$: Observable<Array<Survey>>;
   unratedSubjects$: Observable<Array<Subject>>;
+  image:Blob;
+  imageURL:SafeUrl;
 
   constructor() {
   }
@@ -38,6 +41,8 @@ export class UserInfoService {
   }
 
   deleteUserData() {
+    this.image = null;
+    this.imageURL = null;
     sessionStorage.clear();
   }
 

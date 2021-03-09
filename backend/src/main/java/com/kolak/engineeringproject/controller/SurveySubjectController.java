@@ -3,7 +3,7 @@ package com.kolak.engineeringproject.controller;
 import com.kolak.engineeringproject.model.Subject;
 import com.kolak.engineeringproject.model.SubjectAverages;
 import com.kolak.engineeringproject.model.Survey;
-import com.kolak.engineeringproject.manager.SurveySubjectService;
+import com.kolak.engineeringproject.service.SurveySubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,9 @@ import java.util.Map;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
-//@CrossOrigin(origins = "https://engineering-project-frontend.herokuapp.com")
 public class SurveySubjectController {
 
-    private SurveySubjectService surveySubjectService;
+    private final SurveySubjectService surveySubjectService;
 
     @Autowired
     public SurveySubjectController(SurveySubjectService surveySubjectService) {
@@ -63,10 +62,9 @@ public class SurveySubjectController {
         return this.surveySubjectService.getSubjectByName(subjectName);
     }
 
-
     @PostMapping("/save-survey")
-    public ResponseEntity saveSurvey(@Validated @RequestBody Survey survey) {
+    public ResponseEntity<?> saveSurvey(@Validated @RequestBody Survey survey) {
         surveySubjectService.saveSurvey(survey);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

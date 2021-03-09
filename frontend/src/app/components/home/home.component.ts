@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-// @ts-ignore
-import {HttpService} from 'src/app/services/http.service';
+import {HttpService} from '../../services/http.service';
 import {ActivatedRoute, Router} from '@angular/router';
-// @ts-ignore
-import {UserInfoService} from 'src/app/services/user-info.service';
+import {UserInfoService} from '../../services/user-info.service';
 
 @Component({
   selector: 'app-home',
@@ -12,16 +10,14 @@ import {UserInfoService} from 'src/app/services/user-info.service';
 })
 export class HomeComponent implements OnInit {
 
+
+
   constructor(private http: HttpService,
               private router: Router,
               public userInfo: UserInfoService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.userInfo.getToken() === null || this.userInfo.getUserRole() !== 'ROLE_USER') {
-      this.router.navigate(['login']);
-    }
-
     this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
   }
 
@@ -32,5 +28,8 @@ export class HomeComponent implements OnInit {
   showUnrated() {
     this.router.navigate(['unrated-subjects'], {relativeTo: this.activatedRoute});
   }
+
+
+
 
 }

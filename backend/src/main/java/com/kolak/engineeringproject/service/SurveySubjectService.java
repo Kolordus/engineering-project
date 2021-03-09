@@ -1,4 +1,4 @@
-package com.kolak.engineeringproject.manager;
+package com.kolak.engineeringproject.service;
 
 import com.google.common.hash.Hashing;
 import com.kolak.engineeringproject.model.Subject;
@@ -68,7 +68,7 @@ public class SurveySubjectService {
     public List<Subject> usersUnratedSurveys(Long userId, List<Subject> allSubjects) {
         String encodedId = Hashing
                 .sha256()
-                .hashString(String.valueOf(userId) + "user", StandardCharsets.UTF_8)
+                .hashString(userId + "user", StandardCharsets.UTF_8)
                 .toString();
 
         List<Subject> usersRatedSubjects = surveyRepo.findAll()
@@ -154,11 +154,6 @@ public class SurveySubjectService {
     }
 
     public boolean checkIfSurveyChanged(String token) {
-        if (surveyRepo.findByToken(token) != null)
-            return true;
-        return false;
+        return surveyRepo.findByToken(token) != null;
     }
 }
-
-
-// trzeba zrobić przedmiot -> obiekt z danymi!

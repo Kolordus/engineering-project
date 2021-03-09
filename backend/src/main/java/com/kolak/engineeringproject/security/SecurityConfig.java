@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    private UserDetailedServiceImpl userDetailedService;
+    private final UserDetailedServiceImpl userDetailedService;
 
     @Autowired
     public SecurityConfig(UserDetailedServiceImpl userDetailedService) {

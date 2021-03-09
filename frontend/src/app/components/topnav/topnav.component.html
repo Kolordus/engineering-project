@@ -1,0 +1,16 @@
+<mat-toolbar *ngIf="userInfo.getUsername()" class="navbar">
+  <div style="float: left; padding: 14px">
+  </div>
+  <div style="float: right;margin-right: 0; text-align: center;">
+      <span>
+        <img *ngIf="this.userInfo.imageURL" [src]="this.userInfo.imageURL" class="image-profile" alt="profileImg">
+      </span>
+    <span>
+        <a routerLink="/home/profile">{{ this.userInfo.getUsername() }}</a>
+      </span>
+    <span>
+        <button mat-raised-button color="warn" (click)="logout()" class="btn btn-danger button">Wyloguj</button>
+      </span>
+  </div>
+
+</mat-toolbar>

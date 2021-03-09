@@ -39,6 +39,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.userInfo.getToken()) {
+
+
+
       if (this.userInfo.getUserRole() === 'ROLE_ADMIN') {
         this.router.navigate(['admin']);
       } else if (this.userInfo.getUserRole() === 'ROLE_USER') {

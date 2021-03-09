@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserInfoService} from 'src/app/services/user-info.service';
+import {UserInfoService} from '../../services/user-info.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
-// ctrl n
 
 @Component({
   selector: 'app-admin',
@@ -18,18 +17,15 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.userInfo.getToken() === null || this.userInfo.getUserRole() !== 'ROLE_ADMIN') {
-      this.router.navigate(['login']);
-    }
-
-
-
-
-
   }
 
   showUsers() {
     this.router.navigate(['users'], {relativeTo: this.activatedRoute});
+  }
+
+  logout() {
+    this.userInfo.deleteUserData();
+    this.router.navigate(['login']);
   }
 
   showSurveys() {

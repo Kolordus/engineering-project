@@ -21,6 +21,10 @@ import {MatTabsModule} from "@angular/material/tabs";
 import { CheckSurveyDialogComponent } from './components/dialogs/check-survey-dialog/check-survey-dialog.component';
 import { TokenDialogComponent } from './components/dialogs/token-dialog/token-dialog.component';
 import { ShowTokenComponent } from './components/dialogs/show-token/show-token.component';
+import { ProfileComponent } from './components/home/profile/profile.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
+import { TopnavComponent } from './components/topnav/topnav.component';
 
 
 @NgModule({
@@ -31,6 +35,8 @@ import { ShowTokenComponent } from './components/dialogs/show-token/show-token.c
     CheckSurveyDialogComponent,
     TokenDialogComponent,
     ShowTokenComponent,
+    ProfileComponent,
+    TopnavComponent,
   ],
   entryComponents: [CreateNewSurveyDialogComponent, CheckSurveyDialogComponent, TokenDialogComponent, ShowTokenComponent],
   imports: [
@@ -49,7 +55,9 @@ import { ShowTokenComponent } from './components/dialogs/show-token/show-token.c
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule,
+    MatIconModule
   ],
   providers: [HttpService, UserInfoService, ],
   bootstrap: [AppComponent]

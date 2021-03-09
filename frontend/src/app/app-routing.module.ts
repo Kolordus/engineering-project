@@ -10,6 +10,7 @@ import {SurveysComponent} from './components/admin/surveys/surveys.component';
 import {SubjectsTableComponent} from './components/admin/subjects/subjects-table.component';
 import {RatedSurveysComponent} from './components/home/rated-surveys/rated-surveys.component';
 import {UnratedSurveysComponent} from './components/home/unrated-surveys/unrated-surveys.component';
+import {ProfileComponent} from "./components/home/profile/profile.component";
 
 
 export const routes: Routes = [
@@ -26,7 +27,9 @@ export const routes: Routes = [
     component: HomeComponent,
     children: [
       {path: 'rated-subjects', component: RatedSurveysComponent},
-      {path: 'unrated-subjects', component: UnratedSurveysComponent}
+      {path: 'unrated-subjects', component: UnratedSurveysComponent},
+      {path: 'profile', component: ProfileComponent},
+
     ]},
   {path: 'login', component: LoginComponent},
   {path: '**', component: NotFoundComponent}
