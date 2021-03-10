@@ -18,25 +18,22 @@ export class TopnavComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.userInfo.getToken() === null || this.userInfo.getUserRole() !== 'ROLE_USER') {
+
+    if (this.userInfo.getjwtToken() === null || this.userInfo.getUserRole() !== 'ROLE_USER') {
       this.router.navigate(['login']);
     }
-    console.log('kuuuurwas')
-
     this.downloadFile();
   }
-
 
   downloadFile() {
     this.uploadFileService.downloadFile().subscribe(
       res => {
-        console.log(res);
-        if (res.size > 0) {
+        if (res && res.size > 0) {
           this.userInfo.image = res;
           this.userInfo.imageURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.userInfo.image));
         }
-
       });
+
   }
 
   logout() {

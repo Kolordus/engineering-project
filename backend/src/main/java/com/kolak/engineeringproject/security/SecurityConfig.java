@@ -3,10 +3,14 @@ package com.kolak.engineeringproject.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,18 +21,18 @@ import java.util.List;
 import static java.util.Collections.singletonList;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public BCryptPasswordEncoder getEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
     private final UserDetailedServiceImpl userDetailedService;
+    private final JwtFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(UserDetailedServiceImpl userDetailedService) {
+    public SecurityConfig(UserDetailedServiceImpl userDetailedService, JwtFilter jwtFilter) {
         this.userDetailedService = userDetailedService;
+        this.jwtFilter = jwtFilter;
     }
 
     @Override
@@ -39,23 +43,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/h2").hasRole("ADMIN")
                 .antMatchers("/api/register").permitAll()
+                .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/**").hasAnyRole("ADMIN", "USER")
+                .and().exceptionHandling().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
                 .formLogin().permitAll()
                 .and()
-
-                .httpBasic()
-                .and()
-
                 .csrf().disable()
                 .logout().permitAll()
                 .and()
                 .headers().frameOptions().disable()
                 .and()
                 .cors().configurationSource(corsConfigurationSource());
+
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     CorsConfigurationSource corsConfigurationSource() {
@@ -71,5 +74,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
+    @Bean
+    public BCryptPasswordEncoder getEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

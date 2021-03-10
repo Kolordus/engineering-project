@@ -1,25 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-// @ts-ignore
-import { HttpService } from 'src/app/services/http.service';
-// @ts-ignore
-import { User } from 'src/app/User';
-import { Router } from '@angular/router';
-// @ts-ignore
-import { PasswordValidator } from 'src/app/shared/password-validator';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {User} from '../../User';
+import {Router} from '@angular/router';
+import {PasswordValidator} from '../../shared/password-validator';
+import {LoginRegisterService} from "../../services/login-register.service";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
+
+  constructor(private fb: FormBuilder, private http: LoginRegisterService, private router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      userName: ['', [Validators.required, this.validateUsername()]],
+      password: ['', [Validators.minLength(5), Validators.required]],
+      confirmPassword: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]]
+    }, {validator: PasswordValidator});
+
+
+  }
 
   registerForm: FormGroup;
   usernameTaken: boolean;
 
-  get userName() {
-    return this.registerForm.get('userName');
+  get username() {
+    return this.registerForm.get('username');
   }
 
   get password() {
@@ -35,17 +46,6 @@ export class RegisterComponent {
   }
 
 
-  constructor(private fb: FormBuilder, private http: HttpService, private router: Router) {
-    this.registerForm = this.fb.group({
-      userName: ['', [Validators.required, this.validateUsername()]],
-      password: ['', [Validators.minLength(5), Validators.required]],
-      confirmPassword: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]]
-    }, { validator: PasswordValidator });
-
-
-  }
-
   onSubmit() {
     const user: User = ({
       role: 'ROLE_USER',
@@ -54,7 +54,7 @@ export class RegisterComponent {
       email: this.registerForm.value.email
     });
 
-    this.http.registerUser(user).subscribe(u => {
+    this.http.registerUser(user).subscribe(_ => {
     });
     this.router.navigate(['login']);
 
@@ -63,20 +63,19 @@ export class RegisterComponent {
   }
 
 
-
   private validateUsername(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       this.http.isUserTaken(control.value)
         .subscribe(
-        (data) => {
-          this.usernameTaken = data;
+          (data) => {
+            this.usernameTaken = data;
 
-          if(control.value === null) {
-            this.usernameTaken = false;
-          }
-        }, (error => console.log('username available')));
+            if (control.value === null) {
+              this.usernameTaken = false;
+            }
+          });
 
-      return { alreadyExist: false };
+      return {alreadyExist: false};
     };
   }
 }

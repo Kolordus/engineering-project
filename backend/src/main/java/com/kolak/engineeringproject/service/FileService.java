@@ -33,7 +33,6 @@ public class FileService {
         InputStream inputStream = file.getInputStream();
         String originalName = file.getOriginalFilename();
         String name = file.getName();
-        System.out.println(file.getContentType());
         long size = file.getSize();
         File imagePath = new File(saveDirectory.getAbsolutePath() + File.separator + file.getOriginalFilename());
         Files.write(file.getBytes(), imagePath);
@@ -62,6 +61,7 @@ public class FileService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // todo error of lack of picture
             return pictureBytes;
         });
     }

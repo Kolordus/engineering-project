@@ -12,12 +12,12 @@
           <div class="form-group">
             <mat-label>Username</mat-label>
             <label>
-              <input formControlName="userName" type="text" class="form-control" placeholder="username"
-                     [class.is-invalid]="userName.invalid && userName.touched">
+              <input formControlName="username" type="text" class="form-control" placeholder="username"
+                     [class.is-invalid]="username.invalid && username.touched">
             </label>
 
             <div >
-              <small *ngIf="userName.invalid && userName.touched" class="text-danger">Proszę wpisać login</small>
+              <small *ngIf="username.invalid && username.touched" class="text-danger">Proszę wpisać login</small>
             </div>
           </div>
 
@@ -53,7 +53,6 @@
       </div>
     </div>
   </div>
-
 </div>
 </body>
 </html>
@@ -64,14 +63,8 @@
     <div class="container">
       <div id="login-row" class="row justify-content-center align-items-center">
         <div id="login-column" class="col-md-6">
-
-
         </div>
       </div>
-
-
     </div>
   </div>
-
 </body>
-

@@ -1,4 +1,4 @@
-<div *ngIf="(this.userInfo.unratedSubjects$ | async)?.length > 0; else elseBlock">
+<div *ngIf="(this.unratedSubjects$ | async)?.length > 0; else elseBlock">
   <h2>Przedmioty do ocenienia</h2>
   <table class="table table-hover">
     <thead>
@@ -8,7 +8,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let subjecto of this.userInfo.unratedSubjects$ | async">
+    <tr *ngFor="let subjecto of this.unratedSubjects$ | async">
       <td>{{ subjecto.name }}</td>
       <td><button mat-raised-button (click)="openDialog(this.subjecto.name)" class="btn btn-success">OCEŃ</button>
       </td>

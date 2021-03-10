@@ -62,7 +62,7 @@ public class SurveySubjectController {
         return this.surveySubjectService.getSubjectByName(subjectName);
     }
 
-    @PostMapping("/save-survey")
+    @PostMapping(value = "/save-survey")
     public ResponseEntity<?> saveSurvey(@Validated @RequestBody Survey survey) {
         surveySubjectService.saveSurvey(survey);
         return new ResponseEntity<>(HttpStatus.CREATED);

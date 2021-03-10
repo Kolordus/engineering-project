@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-// @ts-ignore
-import {HttpService} from 'src/app/services/http.service';
 import {Router} from '@angular/router';
 import {UserLog} from '../UserLog';
-// @ts-ignore
-import {UserInfoService} from 'src/app/services/user-info.service';
+import {UserInfoService} from '../../services/user-info.service';
+import {LoginRegisterService} from "../../services/login-register.service";
 
 @Component({
   selector: 'app-login',
@@ -18,9 +16,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   wrongLogin = false;
 
-
-  get userName() {
-    return this.loginForm.get('userName');
+  get username() {
+    return this.loginForm.get('username');
   }
 
   get password() {
@@ -28,19 +25,18 @@ export class LoginComponent implements OnInit {
   }
 
   constructor(private fb: FormBuilder,
-              private http: HttpService,
+              private http: LoginRegisterService,
               private router: Router,
               private userInfo: UserInfoService) {
+
     this.loginForm = this.fb.group({
-      userName: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
   }
 
   ngOnInit() {
-    if (this.userInfo.getToken()) {
-
-
+    if (this.userInfo.getjwtToken()) {
 
       if (this.userInfo.getUserRole() === 'ROLE_ADMIN') {
         this.router.navigate(['admin']);
@@ -53,26 +49,28 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.userLoginData = this.loginForm.value;
     this.http.login(this.userLoginData).subscribe(data => {
-      this.userInfo.setUserInfo(data[1], data[0], this.userLoginData.userName);
 
-      if (sessionStorage.getItem('userRole') === 'ROLE_USER') {
-        this.router.navigate(['home']);
-      }
+        this.userInfo.setUserInfo(data.jwt);
 
-      if (sessionStorage.getItem('userRole') === 'ROLE_ADMIN') {
-        this.router.navigate(['admin']);
-      }
+        if (sessionStorage.getItem('userRole') === 'ROLE_USER') {
+          this.router.navigate(['home']);
+        }
 
-      this.wrongLogin = false;
-    },
-    err => {
-      if (err) {
-        this.wrongLogin = true;
-        setTimeout(() => {
-          this.wrongLogin = false;
-        }, 4000);
-      }
-    });
+        if (sessionStorage.getItem('userRole') === 'ROLE_ADMIN') {
+          this.router.navigate(['admin']);
+        }
+        window.location.reload();
+        this.wrongLogin = false;
+      },
+      err => {
+        console.log(err)
+        if (err) {
+          this.wrongLogin = true;
+          setTimeout(() => {
+            this.wrongLogin = false;
+          }, 4000);
+        }
+      });
   }
 
 }

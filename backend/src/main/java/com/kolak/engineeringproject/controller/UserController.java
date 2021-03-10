@@ -1,12 +1,17 @@
 package com.kolak.engineeringproject.controller;
 
-import com.google.common.io.Files;
+import com.kolak.engineeringproject.security.util.JwtResponse;
+import com.kolak.engineeringproject.security.util.LoginCredentials;
 import com.kolak.engineeringproject.model.User;
+import com.kolak.engineeringproject.security.util.JwtUtil;
 import com.kolak.engineeringproject.service.FileService;
 import com.kolak.engineeringproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +19,6 @@ import javax.annotation.security.PermitAll;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -24,12 +28,16 @@ public class UserController {
 
     private final UserService userService;
     private final FileService fileService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
 
     @Autowired
-    public UserController(UserService userService, FileService fileService) {
+    public UserController(UserService userService, FileService fileService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.userService = userService;
         this.fileService = fileService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
@@ -71,5 +79,18 @@ public class UserController {
             return new ResponseEntity<>(fileService.getUserPicture().get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PermitAll()
+    @PostMapping("/authenticate")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginCredentials loginCredentials) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginCredentials.getUsername(), loginCredentials.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<>(jwtUtil.generateToken(loginCredentials.getUsername()), HttpStatus.OK);
     }
 }

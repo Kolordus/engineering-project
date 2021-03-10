@@ -10,7 +10,8 @@ import {UserInfoService} from '../../services/user-info.service';
 })
 export class HomeComponent implements OnInit {
 
-
+  unratedSubjectsNumber: number;
+  showSpinner = true;
 
   constructor(private http: HttpService,
               private router: Router,
@@ -18,7 +19,10 @@ export class HomeComponent implements OnInit {
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.userInfo.unratedSubjects$ = this.http.getUnratedSubjects();
+    this.http.getUnratedSubjects().subscribe(value => {
+      this.unratedSubjectsNumber = value.length;
+      this.showSpinner = false;
+    })
   }
 
   showRated() {

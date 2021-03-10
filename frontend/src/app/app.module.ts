@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule, routingComponents} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {HttpService} from './services/http.service';
 import {UserInfoService} from './services/user-info.service';
 import {CommonModule} from '@angular/common';
@@ -25,6 +25,8 @@ import { ProfileComponent } from './components/home/profile/profile.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import { TopnavComponent } from './components/topnav/topnav.component';
+import {JwtInterceptor} from "./services/interceptor/JwtInterceptor";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -57,9 +59,12 @@ import { TopnavComponent } from './components/topnav/topnav.component';
     MatInputModule,
     MatTabsModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
-  providers: [HttpService, UserInfoService, ],
+  providers: [HttpService, UserInfoService, {
+    provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

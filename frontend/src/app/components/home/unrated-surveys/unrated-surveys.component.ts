@@ -1,23 +1,29 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserInfoService} from '../../../services/user-info.service';
 import {CreateNewSurveyDialogComponent} from '../../dialogs/createNewSurveyDialog/create-new-survey-dialog.component';
 import {HttpService, Subject, Survey} from '../../../services/http.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ShowTokenComponent} from "../../dialogs/show-token/show-token.component";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-unrated-surveys',
   templateUrl: './unrated-surveys.component.html',
   styleUrls: ['./unrated-surveys.component.css']
 })
-export class UnratedSurveysComponent {
+export class UnratedSurveysComponent implements OnInit{
 
   surveyRatesFromDialog: Survey;
   subjectToRate: Subject;
+  unratedSubjects$: Observable<Array<Subject>>;
 
   constructor(public userInfo: UserInfoService,
               private http: HttpService,
               public dialog: MatDialog) {
+  }
+
+  ngOnInit(): void {
+    this.unratedSubjects$ = this.http.getUnratedSubjects();
   }
 
 

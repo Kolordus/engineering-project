@@ -1,8 +1,6 @@
 package com.kolak.engineeringproject.model;
-import com.kolak.engineeringproject.repositories.SurveyRepo;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -13,23 +11,17 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @OneToOne
     private Subject subject;
 
-    @NotNull
     private String userId;
 
-    @NotNull
     private int rate1;
 
-    @NotNull
     private int rate2;
 
-    @NotNull
     private int rate3;
 
-    @NotNull
     private String opinion;
 
     private String token;
